@@ -7,19 +7,6 @@ export default defineNuxtConfig({
     websocket: true,
   },
 
-  nitro: {
-    experimental: {
-      websocket: true,
-    },
-    // Don't compress WebSocket routes
-    routeRules: {
-      "/ws/**": {
-        headers: {
-          "Cache-Control": "no-store",
-        },
-      },
-    },
-  },
   modules: [
     "@nuxt/icon",
     "@nuxt/image",
@@ -181,6 +168,10 @@ export default defineNuxtConfig({
       rollupOptions: {
         external: [],
       },
+      commonjsOptions: {
+        include: [/telegram/, /node_modules/],
+        transformMixedEsModules: true,
+      },
     },
     optimizeDeps: {
       include: ["telegram"],
@@ -199,9 +190,17 @@ export default defineNuxtConfig({
 
   // only if image name change when changing the image
   nitro: {
-    compressPublicAssets: true, // Gzip/Brotli compression for everything
+    experimental: {
+      websocket: true,
+    },
+    compressPublicAssets: true,
     minify: true,
     routeRules: {
+      "/ws/**": {
+        headers: {
+          "Cache-Control": "no-store",
+        },
+      },
       "/.well-known/**": {
         cors: true,
         headers: {
