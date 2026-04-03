@@ -154,6 +154,12 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    resolve: {
+      alias: {
+        // force browser-safe crypto
+        crypto: "crypto-browserify",
+      },
+    },
     plugins: [
       nodePolyfills({
         globals: {

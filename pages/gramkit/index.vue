@@ -1,191 +1,198 @@
 <template>
-  <div class="gramkit-page" :dir="locale === 'ar' ? 'rtl' : 'ltr'">
-    <!-- ══════════ CONNECT GATE ══════════ -->
-    <transition name="fade-slide">
-      <div v-if="!isConnected && step === 'connect'" class="centered-wrap">
-        <div class="connect-card">
-          <div class="card-hero">
-            <div class="hero-icon">
-              <Icon name="mdi:telegram" size="32" />
+  <ClientOnly>
+    <div class="gramkit-page" :dir="locale === 'ar' ? 'rtl' : 'ltr'">
+      <!-- ══════════ CONNECT GATE ══════════ -->
+      <transition name="fade-slide">
+        <div v-if="!isConnected && step === 'connect'" class="centered-wrap">
+          <div class="connect-card">
+            <div class="card-hero">
+              <div class="hero-icon">
+                <Icon name="mdi:telegram" size="32" />
+              </div>
+              <h1 class="card-title">GramKit</h1>
+              <p class="card-sub">{{ $t("gramkit.subtitle") }}</p>
             </div>
-            <h1 class="card-title">GramKit</h1>
-            <p class="card-sub">{{ $t("gramkit.subtitle") }}</p>
-          </div>
 
-          <div class="guide-block">
-            <button class="guide-toggle" @click="showGuide = !showGuide">
-              <Icon name="mdi:help-circle-outline" size="15" />
-              <span>{{
-                showGuide ? $t("gramkit.guide.hide") : $t("gramkit.guide.show")
-              }}</span>
-              <Icon
-                :name="showGuide ? 'mdi:chevron-up' : 'mdi:chevron-down'"
-                size="15"
-                class="ms-auto"
-              />
-            </button>
-            <transition name="expand">
-              <div v-if="showGuide" class="guide-steps">
-                <div v-for="(s, i) in guideSteps" :key="i" class="guide-step">
-                  <div class="guide-num">{{ i + 1 }}</div>
-                  <div>
-                    <div class="guide-step-title">{{ s.title }}</div>
-                    <div class="guide-step-desc">{{ s.desc }}</div>
-                    <a
-                      v-if="i === 0"
-                      href="https://my.telegram.org"
-                      target="_blank"
-                      class="guide-link"
-                    >
-                      <Icon name="mdi:open-in-new" size="12" /> my.telegram.org
-                    </a>
+            <div class="guide-block">
+              <button class="guide-toggle" @click="showGuide = !showGuide">
+                <Icon name="mdi:help-circle-outline" size="15" />
+                <span>{{
+                  showGuide
+                    ? $t("gramkit.guide.hide")
+                    : $t("gramkit.guide.show")
+                }}</span>
+                <Icon
+                  :name="showGuide ? 'mdi:chevron-up' : 'mdi:chevron-down'"
+                  size="15"
+                  class="ms-auto"
+                />
+              </button>
+              <transition name="expand">
+                <div v-if="showGuide" class="guide-steps">
+                  <div v-for="(s, i) in guideSteps" :key="i" class="guide-step">
+                    <div class="guide-num">{{ i + 1 }}</div>
+                    <div>
+                      <div class="guide-step-title">{{ s.title }}</div>
+                      <div class="guide-step-desc">{{ s.desc }}</div>
+                      <a
+                        v-if="i === 0"
+                        href="https://my.telegram.org"
+                        target="_blank"
+                        class="guide-link"
+                      >
+                        <Icon name="mdi:open-in-new" size="12" />
+                        my.telegram.org
+                      </a>
+                    </div>
                   </div>
                 </div>
+              </transition>
+            </div>
+
+            <div class="form-grid-2">
+              <SharedUiFormBaseInput
+                v-model="form.apiId"
+                :label="$t('gramkit.form.apiId')"
+                placeholder="12345678"
+                dir="ltr"
+                icon-left="mdi:identifier"
+              />
+              <SharedUiFormBaseInput
+                v-model="form.apiHash"
+                :label="$t('gramkit.form.apiHash')"
+                placeholder="a1b2c3d4e5f6..."
+                dir="ltr"
+                icon-left="mdi:key-outline"
+              />
+            </div>
+            <SharedUiFormBaseInput
+              v-model="form.phone"
+              :label="$t('gramkit.form.phone')"
+              placeholder="+971501234567"
+              type="tel"
+              dir="ltr"
+              icon-left="mdi:phone-outline"
+            />
+
+            <SharedUiButtonBase
+              :loading="connecting"
+              icon-left="mdi:link-variant"
+              size="lg"
+              class="w-100"
+              @click="handleConnect"
+            >
+              {{ $t("gramkit.form.connect") }}
+            </SharedUiButtonBase>
+          </div>
+        </div>
+      </transition>
+
+      <!-- ══════════ OTP ══════════ -->
+      <transition name="fade-slide">
+        <div v-if="step === 'otp'" class="centered-wrap">
+          <div class="connect-card otp-card">
+            <div class="card-hero">
+              <div class="hero-icon purple">
+                <Icon name="mdi:shield-lock-outline" size="32" />
               </div>
-            </transition>
-          </div>
-
-          <div class="form-grid-2">
-            <SharedUiFormBaseInput
-              v-model="form.apiId"
-              :label="$t('gramkit.form.apiId')"
-              placeholder="12345678"
-              dir="ltr"
-              icon-left="mdi:identifier"
-            />
-            <SharedUiFormBaseInput
-              v-model="form.apiHash"
-              :label="$t('gramkit.form.apiHash')"
-              placeholder="a1b2c3d4e5f6..."
-              dir="ltr"
-              icon-left="mdi:key-outline"
-            />
-          </div>
-          <SharedUiFormBaseInput
-            v-model="form.phone"
-            :label="$t('gramkit.form.phone')"
-            placeholder="+971501234567"
-            type="tel"
-            dir="ltr"
-            icon-left="mdi:phone-outline"
-          />
-
-          <SharedUiButtonBase
-            :loading="connecting"
-            icon-left="mdi:link-variant"
-            size="lg"
-            class="w-100"
-            @click="handleConnect"
-          >
-            {{ $t("gramkit.form.connect") }}
-          </SharedUiButtonBase>
-        </div>
-      </div>
-    </transition>
-
-    <!-- ══════════ OTP ══════════ -->
-    <transition name="fade-slide">
-      <div v-if="step === 'otp'" class="centered-wrap">
-        <div class="connect-card otp-card">
-          <div class="card-hero">
-            <div class="hero-icon purple">
-              <Icon name="mdi:shield-lock-outline" size="32" />
+              <h2 class="card-title">{{ $t("gramkit.otp.title") }}</h2>
+              <p class="card-sub">
+                {{ $t("gramkit.otp.subtitle") }}
+                <strong dir="ltr">{{ form.phone }}</strong>
+              </p>
             </div>
-            <h2 class="card-title">{{ $t("gramkit.otp.title") }}</h2>
-            <p class="card-sub">
-              {{ $t("gramkit.otp.subtitle") }}
-              <strong dir="ltr">{{ form.phone }}</strong>
-            </p>
-          </div>
 
-          <div class="otp-hint">
-            <Icon name="mdi:information-outline" size="14" />
-            {{ $t("gramkit.otp.hint") }}
-          </div>
-
-          <div class="otp-row" dir="ltr">
-            <input
-              v-for="(_, i) in otpDigits"
-              :key="i"
-              :ref="(el) => (otpRefs[i] = el)"
-              v-model="otpDigits[i]"
-              type="text"
-              inputmode="numeric"
-              maxlength="1"
-              class="otp-box"
-              @input="onOtpInput(i)"
-              @keydown.backspace="onOtpBackspace(i)"
-            />
-          </div>
-
-          <SharedUiButtonBase
-            :loading="signing"
-            :disabled="otpDigits.join('').length < 5"
-            icon-left="mdi:check-circle-outline"
-            size="lg"
-            class="w-100"
-            @click="handleSignIn"
-          >
-            {{ $t("gramkit.otp.verify") }}
-          </SharedUiButtonBase>
-
-          <button class="ghost-link" @click="step = 'connect'">
-            <Icon name="mdi:arrow-left" size="13" />
-            {{ $t("gramkit.otp.back") }}
-          </button>
-        </div>
-      </div>
-    </transition>
-
-    <!-- ══════════ DASHBOARD ══════════ -->
-    <transition name="fade">
-      <div v-if="isConnected && step === 'dashboard'" class="dashboard">
-        <div class="dash-topbar">
-          <div class="dash-topbar-left">
-            <div class="brand-dot" />
-            <span class="brand-name">GramKit</span>
-          </div>
-          <button
-            class="icon-btn"
-            :title="$t('gramkit.logout')"
-            @click="handleLogout"
-          >
-            <Icon name="mdi:logout" size="16" />
-          </button>
-        </div>
-
-        <div class="tools-intro">
-          <h2 class="tools-heading">{{ $t("gramkit.tools.heading") }}</h2>
-          <p class="tools-sub">{{ $t("gramkit.tools.sub") }}</p>
-        </div>
-
-        <div class="tools-grid">
-          <NuxtLink
-            v-for="tool in tools"
-            :key="tool.route"
-            :to="tool.route"
-            class="tool-card"
-            :class="`tool-card--${tool.color}`"
-          >
-            <div class="tool-icon">
-              <Icon :name="tool.icon" size="24" />
+            <div class="otp-hint">
+              <Icon name="mdi:information-outline" size="14" />
+              {{ $t("gramkit.otp.hint") }}
             </div>
-            <div class="tool-info">
-              <div class="tool-name">{{ $t(tool.name) }}</div>
-              <div class="tool-desc">{{ $t(tool.desc) }}</div>
+
+            <div class="otp-row" dir="ltr">
+              <input
+                v-for="(_, i) in otpDigits"
+                :key="i"
+                :ref="(el) => (otpRefs[i] = el)"
+                v-model="otpDigits[i]"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                class="otp-box"
+                @input="onOtpInput(i)"
+                @keydown.backspace="onOtpBackspace(i)"
+              />
             </div>
-            <Icon
-              :name="
-                $i18n.locale === 'ar' ? 'mdi:chevron-left' : 'mdi:chevron-right'
-              "
-              size="16"
-              class="tool-arrow"
-            />
-          </NuxtLink>
+
+            <SharedUiButtonBase
+              :loading="signing"
+              :disabled="otpDigits.join('').length < 5"
+              icon-left="mdi:check-circle-outline"
+              size="lg"
+              class="w-100"
+              @click="handleSignIn"
+            >
+              {{ $t("gramkit.otp.verify") }}
+            </SharedUiButtonBase>
+
+            <button class="ghost-link" @click="step = 'connect'">
+              <Icon name="mdi:arrow-left" size="13" />
+              {{ $t("gramkit.otp.back") }}
+            </button>
+          </div>
         </div>
-      </div>
-    </transition>
-  </div>
+      </transition>
+
+      <!-- ══════════ DASHBOARD ══════════ -->
+      <transition name="fade">
+        <div v-if="isConnected && step === 'dashboard'" class="dashboard">
+          <div class="dash-topbar">
+            <div class="dash-topbar-left">
+              <div class="brand-dot" />
+              <span class="brand-name">GramKit</span>
+            </div>
+            <button
+              class="icon-btn"
+              :title="$t('gramkit.logout')"
+              @click="handleLogout"
+            >
+              <Icon name="mdi:logout" size="16" />
+            </button>
+          </div>
+
+          <div class="tools-intro">
+            <h2 class="tools-heading">{{ $t("gramkit.tools.heading") }}</h2>
+            <p class="tools-sub">{{ $t("gramkit.tools.sub") }}</p>
+          </div>
+
+          <div class="tools-grid">
+            <NuxtLink
+              v-for="tool in tools"
+              :key="tool.route"
+              :to="tool.route"
+              class="tool-card"
+              :class="`tool-card--${tool.color}`"
+            >
+              <div class="tool-icon">
+                <Icon :name="tool.icon" size="24" />
+              </div>
+              <div class="tool-info">
+                <div class="tool-name">{{ $t(tool.name) }}</div>
+                <div class="tool-desc">{{ $t(tool.desc) }}</div>
+              </div>
+              <Icon
+                :name="
+                  $i18n.locale === 'ar'
+                    ? 'mdi:chevron-left'
+                    : 'mdi:chevron-right'
+                "
+                size="16"
+                class="tool-arrow"
+              />
+            </NuxtLink>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup>
