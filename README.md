@@ -1,110 +1,128 @@
 <div align="center">
 
-<!-- Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2aabee,100:1a85c8&height=200&section=header&text=TeleJob%20Scanner&fontSize=52&fontColor=ffffff&fontAlignY=38&desc=Hunt%20jobs%20from%20Telegram%20channels%20%E2%80%94%20in%20seconds&descAlignY=58&descSize=18" width="100%"/>
+<img src="public/logo.png" alt="KKit Logo" width="80" />
 
-<br/>
+# KKit
 
-<p>
-  <img src="https://img.shields.io/badge/Nuxt-3.x-00DC82?style=for-the-badge&logo=nuxt.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/Vue-3-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/Telegram%20MTProto-API-2aabee?style=for-the-badge&logo=telegram&logoColor=white" />
-  <img src="https://img.shields.io/badge/i18n-AR%20%7C%20EN-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" />
-</p>
+**A free, open-source Swiss Army knife for the web.**
+Screen sharing · Video calls · Whiteboard · Telegram tools — all in one app, zero cost, zero servers.
 
-<p>
-  <img src="https://img.shields.io/github/stars/YOUR_USERNAME/YOUR_REPO?style=social" />
-  <img src="https://img.shields.io/github/forks/YOUR_USERNAME/YOUR_REPO?style=social" />
-</p>
+[![Nuxt](https://img.shields.io/badge/Nuxt-3-00DC82?style=flat-square&logo=nuxt.js)](https://nuxt.com)
+[![Vue](https://img.shields.io/badge/Vue-3-4FC08D?style=flat-square&logo=vue.js)](https://vuejs.org)
+[![WebRTC](https://img.shields.io/badge/WebRTC-P2P-orange?style=flat-square)](https://webrtc.org)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/wissam333/kkit?style=flat-square)](https://github.com/wissam333/kkit/stargazers)
 
-<br/>
-
-> **TeleJob Scanner** connects directly to your Telegram account via the official MTProto API and scans every channel and group you follow — finding job posts that match your keywords, in real time, without bots or scraping.
-
-<br/>
-
-[🚀 Live Demo](https://your-demo-url.com) • [📸 Screenshots](#-screenshots) • [⚙️ Setup](#%EF%B8%8F-setup) • [🌍 i18n](#-internationalization)
+[Live Demo](https://kkit.netlify.app/) · [Report Bug](https://github.com/wissam333/kkit/issues) · [Request Feature](https://github.com/wissam333/kkit/issues)
 
 </div>
 
 ---
 
-## ✨ Why TeleJob Scanner?
+## ✨ What is KKit?
 
-Most job seekers in Arabic-speaking markets know: **the best opportunities are posted in Telegram channels** — not LinkedIn. But scrolling through dozens of channels daily is exhausting.
+KKit is a **fully self-hosted, serverless toolbox** built with Nuxt 3. It replaces a stack of paid SaaS tools with a single open-source app that you deploy once and use forever — for free.
 
-TeleJob Scanner solves that. One login. All your channels. All the jobs. Instantly.
-
----
-
-## 🎯 Features
-
-| Feature | Description |
-|--------|-------------|
-| 🔐 **Native Telegram Login** | Uses official MTProto API — no bots, no third-party scraping |
-| 💾 **Session Persistence** | Saves your session locally — connect once, use forever |
-| 🔍 **Keyword Matching** | Add custom keywords (Arabic + English supported) |
-| 📅 **Date Range Filtering** | Today / 3 days / 7 days / 30 days |
-| 🏷️ **Live Keyword Chips** | Toggle which keywords to filter by on the dashboard |
-| 📋 **One-Click Copy** | Copy any job post to clipboard instantly |
-| 🔗 **Direct Telegram Links** | Jump straight to the original message in Telegram |
-| 🌙 **Dark / Light Mode** | Follows your system theme via CSS variables |
-| 🌍 **Arabic & English UI** | Full RTL/LTR support via `@nuxtjs/i18n` |
-| ⚡ **Blazing Fast** | Nuxt 3 + SPA mode + critical CSS + async stylesheet loading |
+All real-time features (screen share, video calls, whiteboard, clipboard sync) run **peer-to-peer via WebRTC**. Your server never touches the data stream. Your hosting bill doesn't change whether you use it zero times or ten thousand times.
 
 ---
 
-## 📸 Screenshots
+## 🚀 Features
 
-> *(Add your own screenshots here)*
+### 📡 Mirror — Real-time Device Sync
 
-| Setup Screen | OTP Verification | Job Dashboard |
-|---|---|---|
-| ![Setup](./screenshots/setup.png) | ![OTP](./screenshots/otp.png) | ![Dashboard](./screenshots/dashboard.png) |
+Connect any two devices instantly by scanning a QR code. No accounts, no installs on the other device — just open a link.
 
----
+| Feature               | Description                                                                             |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| 🖥️ **Screen Share**   | Share your screen to any device across any network. Host captures, viewer watches live. |
+| 🎥 **Video Call**     | Free, unlimited video and audio calls. Peer-to-peer, no time limits, no watermarks.     |
+| 🎨 **Whiteboard**     | Collaborative drawing board. Draw on one device, see it live on the other.              |
+| 📋 **Clipboard Sync** | Send text and links instantly between devices.                                          |
+| 📝 **Live Notepad**   | Type on one device, see it appear in real time on the other.                            |
 
-## 🛠️ Tech Stack
-
-```
-Nuxt 3          → Framework (SSR disabled / SPA mode)
-Vue 3           → UI reactivity
-telegram.js     → MTProto API client (official Telegram protocol)
-@nuxtjs/i18n    → Arabic / English with RTL support
-nuxt-beastcss   → Critical CSS extraction
-@nuxt/icon      → MDI icon set
-SCSS            → Scoped styling with CSS variables
-```
+> All Mirror features work across **different WiFi networks**, different countries, mobile and desktop — powered by WebRTC + PeerJS.
 
 ---
 
-## ⚙️ Setup
+### ⚡ GramKit — Telegram Power Tools
 
-### 1. Clone the repo
+Connect your Telegram account once using your own API credentials and unlock a suite of tools that Telegram's official app doesn't offer.
+
+| Tool               | Description                                                              |
+| ------------------ | ------------------------------------------------------------------------ |
+| 💼 **Job Scanner** | Scan all your channels and groups for job postings automatically         |
+| 📊 **Analytics**   | Visualize message activity, peak hours, and top keywords for any channel |
+| 🔔 **Monitor**     | Get alerts when specific keywords appear in your channels                |
+| 🧹 **Cleaner**     | Bulk delete your own messages from any group or channel                  |
+| 👥 **Members**     | Export and browse member lists from groups you admin                     |
+| 🖼️ **Media**       | Browse and download media files from any channel                         |
+| 📦 **Archiver**    | Archive messages and media from channels                                 |
+| 🔖 **Saves**       | Manage your saved messages                                               |
+| 🎁 **Wrapped**     | Your personal Telegram year-in-review stats                              |
+
+> Your Telegram session stays **in your browser only** — never sent to any server.
+
+---
+
+## 💡 Why KKit vs Paid Alternatives?
+
+| Feature           | KKit         | Zoom           | TeamViewer | Miro      | Pushbullet |
+| ----------------- | ------------ | -------------- | ---------- | --------- | ---------- |
+| Screen Share      | ✅ Free      | 💰 Paid        | 💰 Paid    | —         | —          |
+| Video Calls       | ✅ Unlimited | ⏱️ 40min limit | 💰 Paid    | —         | —          |
+| Whiteboard        | ✅ Free      | 💰 Paid        | —          | 💰 $10/mo | —          |
+| Clipboard Sync    | ✅ Free      | —              | —          | —         | 💰 Paid    |
+| Self-hosted       | ✅ Yes       | ❌ No          | ❌ No      | ❌ No     | ❌ No      |
+| No account needed | ✅ Yes       | ❌ No          | ❌ No      | ❌ No     | ❌ No      |
+| Open source       | ✅ Yes       | ❌ No          | ❌ No      | ❌ No     | ❌ No      |
+
+---
+
+## 🏗️ Tech Stack
+
+- **[Nuxt 3](https://nuxt.com)** — Full-stack Vue framework
+- **[Vue 3](https://vuejs.org)** — Composition API + `<script setup>`
+- **[PeerJS](https://peerjs.com)** — WebRTC abstraction for P2P connections
+- **[GramJS](https://github.com/gram-js/gramjs)** — Telegram MTProto client running in the browser
+- **[WebRTC](https://webrtc.org)** — Browser-native peer-to-peer media streaming
+- **SCSS** — Scoped component styles with CSS variables for theming
+- **i18n** — Arabic (RTL) + English support built in
+
+---
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or pnpm
+
+### Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+# Clone the repo
+git clone https://github.com/wissam333/kkit.git
+cd kkit
+
+# Install dependencies
 npm install
-```
 
-### 2. Get your Telegram API credentials
-
-1. Go to [https://my.telegram.org](https://my.telegram.org)
-2. Log in with your phone number
-3. Navigate to **API development tools**
-4. Create a new app — you'll get an **API ID** and **API Hash**
-
-> ⚠️ These are personal credentials tied to your Telegram account. Never share them publicly.
-
-### 3. Run in development
-
-```bash
+# Start development server
 npm run dev
 ```
 
-### 4. Build for production
+### For local cross-device testing (Mirror features)
+
+Screen share and video calls require HTTPS. To test on your phone from your laptop:
+
+```bash
+npm run dev -- --https --host
+```
+
+Your phone can then access it via `https://YOUR_LAN_IP:3000`.
+
+### Production build
 
 ```bash
 npm run build
@@ -113,84 +131,99 @@ npm run preview
 
 ---
 
-## 🔑 How It Works
+## 📱 Mirror — How It Works
 
 ```
-1. Enter your API ID, API Hash, and phone number
-2. Receive a verification code in Telegram (just like logging in on a new device)
-3. Enter the code → you're connected
-4. The app fetches all your dialogs (channels + groups)
-5. It scans messages within your selected date range
-6. Any message matching your keywords appears as a job card
-7. Your session is saved locally — next visit restores it automatically
+Host opens Mirror page → gets a unique session ID
+         ↓
+Host clicks a mode (Screen Share / Video / Whiteboard etc.)
+         ↓
+A QR code + share link appears
+         ↓
+Viewer scans QR on their phone
+         ↓
+PeerJS broker exchanges a tiny handshake (< 1KB)
+         ↓
+WebRTC direct P2P connection established
+         ↓
+All data flows directly browser → browser
+Your server sees nothing after this point
 ```
 
-No data leaves your browser. No backend. No server. Pure client-side.
+---
+
+## 🔐 GramKit — Security Model
+
+GramKit uses the **official Telegram API** (MTProto) through GramJS running entirely in your browser.
+
+- Your API ID, API Hash, and phone number **never leave your device**
+- Your session string is stored only in `localStorage` in your own browser
+- No backend proxy — your browser connects directly to Telegram's servers
+- You can revoke the session anytime from Telegram Settings → Active Sessions
+
+To use GramKit you need a free Telegram API key from [my.telegram.org](https://my.telegram.org).
 
 ---
 
 ## 🌍 Internationalization
 
-The app ships with full Arabic and English translations. To add more languages:
-
-1. Create a new locale file in `locales/` (e.g. `fr.json`)
-2. Add the locale config in `nuxt.config.ts` under `i18n.locales`
-3. All UI strings are pulled from the i18n keys — no hardcoded text
+KKit ships with full **Arabic (RTL)** and **English (LTR)** support. The UI automatically mirrors for RTL languages including layout, icons, and text direction.
 
 ---
 
 ## 📁 Project Structure
 
 ```
+kkit/
+├── components/
+│   ├── Mirror/          # Screen share, video call, whiteboard, clipboard, notepad
+│   ├── Shared/Ui/       # Reusable UI components (buttons, inputs, modals, tables)
+│   └── Home/            # Landing page components
+├── composables/
+│   ├── useMirrorPeer.js # PeerJS WebRTC abstraction
+│   ├── useTelegram.js   # GramJS Telegram client
+│   └── ...
 ├── pages/
-│   └── jobs.vue          ← Main app (setup + OTP + dashboard)
-├── locales/
-│   ├── ar.json           ← Arabic translations
-│   └── en.json           ← English translations
-├── assets/scss/
-│   ├── main.scss         ← Global styles
-│   └── theme/
-│       └── variables.scss← CSS variable tokens (colors, spacing)
-├── nuxt.config.ts        ← Nuxt + Vite + i18n + polyfills config
+│   ├── toolbox/mirror.vue  # Mirror hub page
+│   └── gramkit/            # All GramKit tool pages
+├── server/
+│   ├── api/             # Server API endpoints
+│   └── routes/ws/       # WebSocket signaling server
+└── i18n/locales/        # ar.json + en.json translations
 ```
-
----
-
-## 🔒 Privacy & Security
-
-- ✅ All processing happens **100% in your browser**
-- ✅ Your session string is stored only in **your browser's localStorage**
-- ✅ API credentials are **never sent to any external server**
-- ✅ Uses the **official Telegram MTProto protocol** via `telegram.js`
-- ❌ No analytics, no tracking, no backend
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here are some ideas:
+Contributions are what make open source amazing. Any contributions you make are **greatly appreciated**.
 
-- [ ] Export jobs to CSV / Excel
-- [ ] Notification sound when new jobs are found
-- [ ] Auto-refresh on a timer
-- [ ] More languages (French, Turkish, Urdu…)
-- [ ] Channel allowlist / blocklist
-- [ ] Highlight matched keywords inside job text
-
-Feel free to open an issue or submit a PR.
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 📜 License
+## 📄 License
 
-MIT © [Your Name](https://github.com/YOUR_USERNAME)
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+## ⭐ Show Your Support
+
+If KKit saved you money or time, please consider giving it a star — it helps more people discover the project!
+
+<div align="center">
+
+[![Star this repo](https://img.shields.io/github/stars/wissam333/kkit?style=for-the-badge&logo=github)](https://github.com/wissam333/kkit/stargazers)
+
+</div>
 
 ---
 
 <div align="center">
-
-**If this saved you time hunting for jobs — give it a ⭐ star. It means a lot!**
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1a85c8,100:2aabee&height=100&section=footer" width="100%"/>
-
+Built with ❤️ using Nuxt 3 + WebRTC — Free forever.
 </div>
