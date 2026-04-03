@@ -218,7 +218,7 @@ If KKit saved you money or time, please consider giving it a star — it helps m
 
 <div align="center">
 
-[![Star this repo](https://img.shields.io/github/stars/wissam333/kkit?style=for-the-badge&logo=github)](https://github.com/wissam333/kkit)
+[![Stars](https://img.shields.io/github/stars/wissam333/kkit?style=flat-square)](https://github.com/wissam333/kkit/stargazers)
 
 </div>
 
