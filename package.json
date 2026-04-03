@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build --preset=iis_node",
+    "build": "nuxt build",
     "dev": "nuxt dev --https",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
