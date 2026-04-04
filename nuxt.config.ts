@@ -1,8 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { nodePolyfills } from "vite-plugin-node-polyfills";
+
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  // Enable WebSocket experimental features
+
   experimental: {
     websocket: true,
   },
@@ -15,7 +16,79 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "nuxt-beastcss",
     "nuxt-vitalizer",
+    "@vite-pwa/nuxt",
   ],
+
+  // ── PWA ─────────────────────────────────────────────────────────────────
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Mirror Room",
+      short_name: "MirrorRoom",
+      description:
+        "Real-time room for video calls, whiteboard, chat & screen share",
+      theme_color: "#14b8a6",
+      background_color: "#0f172a",
+      display: "standalone",
+      orientation: "portrait-primary",
+      start_url: "/toolbox/rooms",
+      icons: [
+        {
+          src: "/pwa-192.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "/pwa-512.png",
+          sizes: "512x512",
+          type: "image/png",
+        },
+        {
+          src: "/pwa-512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable",
+        },
+      ],
+    },
+    workbox: {
+      navigateFallback: null,
+      globPatterns: ["**/*.{js,css,html,png,svg,ico,woff2}"],
+      runtimeCaching: [
+        {
+          urlPattern: /^https:\/\/unpkg\.com\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "cdn-cache",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
+            },
+          },
+        },
+        {
+          urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "bootstrap-cache",
+            expiration: {
+              maxEntries: 5,
+              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+            },
+          },
+        },
+      ],
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 3600,
+    },
+    devOptions: {
+      enabled: false, // enable during dev if needed
+      suppressWarnings: true,
+      type: "module",
+    },
+  },
 
   vitalizer: {
     disableStylesheets: "entry",
@@ -24,16 +97,10 @@ export default defineNuxtConfig({
   },
 
   beastcss: {
-    // Basic config
     config: {
-      // 1. Critical CSS only
-      pruneSource: true, // Removes the inlined CSS from the original stylesheet to avoid duplication
-
-      // 2. Resource Management
-      additionalStylesheets: [], // Add paths to extra CSS files (like Bootstrap CDN if you must use it)
-
-      // 3. Performance
-      asyncLoad: true, // Loads the remaining "non-critical" CSS asynchronously after the page paints
+      pruneSource: true,
+      additionalStylesheets: [],
+      asyncLoad: true,
     },
   },
 
@@ -42,8 +109,8 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    // Disable Server-Side Rendering for all routes starting with /account/
     "/gramkit/**": { ssr: false },
+    "/toolbox/**": { ssr: false },
   },
 
   veeValidate: {
@@ -57,7 +124,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    strategy: "no_prefix", // بدون تغيير في الرابط
+    strategy: "no_prefix",
     langDir: "locales/",
     defaultLocale: "ar",
     lazy: true,
@@ -78,7 +145,7 @@ export default defineNuxtConfig({
       },
     ],
     detectBrowserLanguage: {
-      useCookie: true, // IMPORTANT: Use cookies, not just browser settings
+      useCookie: true,
       cookieKey: "i18n_redirected",
       redirectOn: "root",
     },
@@ -97,7 +164,6 @@ export default defineNuxtConfig({
     domains: ["api.uaehandball.org"],
     format: ["webp"],
     quality: 80,
-    // OPTIMIZATION: Define screens to generate specific responsive sizes
     screens: {
       xs: 320,
       sm: 640,
@@ -106,7 +172,6 @@ export default defineNuxtConfig({
       xl: 1280,
       xxl: 1536,
     },
-    // OPTIMIZATION: Prevent generating massive images for mobile
     densities: [1, 2],
   },
 
@@ -118,17 +183,25 @@ export default defineNuxtConfig({
       },
       meta: [
         { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
         {
-          name: "description",
-          content: "",
+          name: "viewport",
+          content: "width=device-width, initial-scale=1, viewport-fit=cover",
         },
+        { name: "description", content: "" },
+        { name: "apple-mobile-web-app-capable", content: "yes" },
+        {
+          name: "apple-mobile-web-app-status-bar-style",
+          content: "black-translucent",
+        },
+        { name: "theme-color", content: "#14b8a6" },
       ],
       style: [
         {
           children: `
           html,body{margin:0}
           .navbar{position:fixed;top:0;width:100%}
+          /* Safe area insets for notched phones */
+          .room-page { padding-bottom: env(safe-area-inset-bottom, 0); }
         `,
         },
       ],
@@ -148,6 +221,10 @@ export default defineNuxtConfig({
           href: "/logo.png",
           type: "image/x-icon",
         },
+        {
+          rel: "apple-touch-icon",
+          href: "/pwa-192.png",
+        },
       ],
       script: [],
     },
@@ -156,7 +233,6 @@ export default defineNuxtConfig({
   vite: {
     resolve: {
       alias: {
-        // force browser-safe crypto
         crypto: "crypto-browserify",
       },
     },
@@ -194,7 +270,6 @@ export default defineNuxtConfig({
     },
   },
 
-  // only if image name change when changing the image
   nitro: {
     experimental: {
       websocket: true,

@@ -33,7 +33,7 @@
         </NuxtLink>
 
         <!-- Toolbox -->
-        <NuxtLink to="/toolbox/mirror" class="entry-card toolbox-card">
+        <NuxtLink to="/toolbox/rooms" class="entry-card toolbox-card">
           <div class="card-glow toolbox-glow" />
           <div class="card-icon toolbox-icon">
             <Icon name="mdi:toolbox-outline" size="28" />
