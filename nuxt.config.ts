@@ -251,6 +251,7 @@ export default defineNuxtConfig({
       rollupOptions: {
         external: [],
       },
+
       commonjsOptions: {
         include: [/telegram/, /node_modules/],
         transformMixedEsModules: true,

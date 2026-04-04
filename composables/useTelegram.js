@@ -3,6 +3,20 @@
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const SAFE_DELAY = 500;
 
+// Lazy singleton – avoids re-importing CJS module in ESM context
+let _TelegramClient = null;
+let _StringSession = null;
+
+const getTelegramModules = async () => {
+  if (!_TelegramClient) {
+    const tg = await import("telegram");
+    const sess = await import("telegram/sessions");
+    _TelegramClient = tg.TelegramClient;
+    _StringSession = sess.StringSession;
+  }
+  return { TelegramClient: _TelegramClient, StringSession: _StringSession };
+};
+
 export const useTgClient = () => useState("tg_client", () => null);
 export const useTgConnected = () => useState("tg_connected", () => false);
 // Store the temp auth client + hash so they survive component re-renders
@@ -16,8 +30,7 @@ export const useTelegram = () => {
 
   /* ── Restore or create a connected client ─────────────────── */
   const connect = async ({ apiId, apiHash, session = "" }) => {
-    const { TelegramClient } = await import("telegram");
-    const { StringSession } = await import("telegram/sessions");
+    const { TelegramClient, StringSession } = await getTelegramModules();
     client.value = new TelegramClient(
       new StringSession(session),
       parseInt(apiId),
@@ -55,15 +68,19 @@ export const useTelegram = () => {
     const codeHash = pending.value.codeHash;
     if (!tmp || !codeHash) throw new Error("No pending auth session");
 
-    await tmp.invoke(
-      new (await import("telegram/tl")).Api.auth.SignIn({
+    await tmp.signInUser(
+      { apiId: parseInt(apiId), apiHash },
+      {
         phoneNumber: phone,
-        phoneCodeHash: codeHash,
-        phoneCode: code,
-      }),
+        phoneCode: async () => code,
+        phoneCodeHash: codeHash, // ← this is the critical fix
+        onError: (e) => {
+          throw e;
+        },
+      },
     );
 
-    // Promote the signed-in client to the active client
+    // Promote signed-in temp client to active client
     client.value = tmp;
     isConnected.value = true;
     pending.value = { client: null, codeHash: "" };
