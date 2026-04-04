@@ -459,5 +459,12 @@
   "peer": "Peer",
   "undo": "Undo",
   "download": "Download",
-  "draw": "Draw"
+  "draw": "Draw",
+  "pwa": {
+    "installTitle": "Install App",
+    "installSub": "Add to your home screen for a better experience",
+    "install": "Install",
+    "later": "Later",
+    "close": "Close"
+  }
 }
