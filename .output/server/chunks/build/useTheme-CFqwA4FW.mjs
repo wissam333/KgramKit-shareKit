@@ -1,0 +1,2 @@
+import{c as e}from"./server.mjs";const useTheme=()=>{const l=e("primaryColor",()=>"#d32f2f"),a=e("isDark",()=>!1);return{primaryColor:l,isDark:a,palettes:[{label:"Red",value:"#d32f2f"},{label:"Navy",value:"#0c1739"},{label:"Indigo",value:"#4338ca"},{label:"Blue",value:"#2563eb"},{label:"Teal",value:"#0d9488"},{label:"Green",value:"#16a34a"},{label:"Purple",value:"#7c3aed"},{label:"Slate",value:"#475569"}],setColor:e=>{l.value=e,a.value},toggleDark:()=>{a.value=!a.value,l.value,a.value},init:()=>{}}};export{useTheme as u};
+//# sourceMappingURL=useTheme-CFqwA4FW.mjs.map

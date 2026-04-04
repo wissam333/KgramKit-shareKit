@@ -1,7 +1,7 @@
 <template>
   <Transition name="pwa-slide">
     <div
-      v-if="showBanner"
+      v-if="$pwa?.showInstallPrompt && !$pwa?.isPWAInstalled"
       class="pwa-banner"
       :dir="locale === 'ar' ? 'rtl' : 'ltr'"
     >
@@ -14,14 +14,18 @@
           <div class="pwa-sub">{{ $t("pwa.installSub") }}</div>
         </div>
         <div class="pwa-actions">
-          <button class="pwa-install-btn" @click="install">
+          <button class="pwa-install-btn" @click="$pwa?.install()">
             {{ $t("pwa.install") }}
           </button>
-          <button class="pwa-later-btn" @click="dismiss">
+          <button class="pwa-later-btn" @click="$pwa?.cancelInstall()">
             {{ $t("pwa.later") }}
           </button>
         </div>
-        <button class="pwa-close" @click="dismiss" :title="$t('pwa.close')">
+        <button
+          class="pwa-close"
+          @click="$pwa?.cancelInstall()"
+          :title="$t('pwa.close')"
+        >
           <Icon name="mdi:close" size="15" />
         </button>
       </div>
@@ -31,9 +35,8 @@
 
 <script setup>
 const { locale } = useI18n();
-const { showBanner, install, dismiss } = usePwaInstall();
+const { $pwa } = useNuxtApp();
 </script>
-
 <style scoped lang="scss">
 .pwa-banner {
   position: fixed;

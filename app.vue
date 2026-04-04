@@ -1,10 +1,11 @@
 <template>
   <div>
     <ElementsLoader />
+    <VitePwaManifest />
+    <PwaInstallBanner />
     <NuxtLayout>
       <main id="main-content">
         <NuxtPage />
-        <PwaInstallBanner />
       </main>
     </NuxtLayout>
     <SharedUiFeedbackToast position="center" :duration="6000" />
@@ -13,10 +14,7 @@
 
 <script setup>
 const { locale } = useI18n();
-const { setup } = usePwaInstall();
-onMounted(() => setup());
 
-// Dynamic Page Title Template
 useHead({
   htmlAttrs: {
     lang: computed(() => locale.value),
@@ -24,7 +22,6 @@ useHead({
   },
 });
 
-// Global Default Meta
 useSeoMeta({
   ogSiteName: "KKit",
   twitterCard: "summary_large_image",
