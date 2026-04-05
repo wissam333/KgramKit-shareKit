@@ -17,7 +17,6 @@ onMounted(() => init());
 <style lang="scss" scoped>
 #main-content {
   overflow-x: hidden;
-  min-height: 100dvh;
   background: var(--bg-page);
   transition:
     background 0.2s ease,

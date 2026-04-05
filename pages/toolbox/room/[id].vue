@@ -57,13 +57,6 @@
         >
           <Icon name="mdi:share-variant-outline" size="18" />
         </button>
-        <!-- Sidebar toggle mobile -->
-        <button
-          class="icon-btn mobile-only"
-          @click="sidebarOpen = !sidebarOpen"
-        >
-          <Icon name="mdi:menu" size="18" />
-        </button>
       </div>
     </header>
 
@@ -250,10 +243,14 @@ onUnmounted(() => {
 .room-page {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
   overflow: hidden;
   background: var(--bg-page);
   font-family: "Tajawal", sans-serif;
+
+  height: calc(100dvh - 62px);
+  @media (max-width: 991px) {
+    height: calc(100dvh - 54px);
+  }
 }
 
 /* ── Top bar ─────────────────────────────────────────────── */
